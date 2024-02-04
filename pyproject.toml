@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "pythoneers-event-sourcing-workshop"
+version = "0.1.0"
+description = "Event Sourcing with Python: A Connect Four Game"
+authors = ["Sebastiaan Zeeff <sebastiaan.zeeff@ordina.nl>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
