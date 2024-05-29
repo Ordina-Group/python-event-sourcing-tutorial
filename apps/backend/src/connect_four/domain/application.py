@@ -1,8 +1,9 @@
 from __future__ import annotations
-import uuid
 from typing import Protocol
 
 import attrs
+
+from connect_four.domain import game as game_models
 
 
 @attrs.define
@@ -10,15 +11,20 @@ class ConnectFourApp:
     _game_repository: IGameRepository
 
     def create_game(self, player_one: str, player_two: str) -> str:
-        """Create a new game.
+        """Create a new game and start it.
 
         :param player_one: the ID of the first player
         :param player_two: the ID of the second player
         :return: the ID of the game that was created
         """
-        game = Game(player_one, player_two)
-        # self.games_repository.save(game)
+        game = game_models.Game(player_one, player_two)
+        game.start_game()
+        self._game_repository.add(game)
         return game.id
+
+    def make_move(self, game_id: str, move: game_models.Move) -> None:
+        game = self._game_repository.get(game_id)
+        game.make_move(move)
 
     # def get_game(self, game_id: str) -> dict[str, str | list[str]]:
     #     """Get the current state of a game.
@@ -34,20 +40,15 @@ class ConnectFourApp:
 
 
 class IGameRepository(Protocol):
-    def save(self, game: Game) -> None:
-        """Save a game in the repository.
+    def add(self, game: game_models.Game) -> None:
+        """Add a game in the repository.
 
         :param game: The game to save
         """
 
+    def get(self, game_id: str) -> game_models.Game:
+        """Get a game from the repository.
 
-# class GamesRepository:
-#     def save(self, game: Game) -> None:
-#         pass
-
-
-@attrs.define
-class Game:
-    player_one: str
-    player_two: str
-    id: str = attrs.field(default=attrs.Factory(lambda: str(uuid.uuid4())))
+        :param game_id: The ID of the game to get
+        :return: The game with the given ID
+        """
