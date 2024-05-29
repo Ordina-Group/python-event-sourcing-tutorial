@@ -12,6 +12,7 @@ class GameEvent(Protocol):
 @attrs.define(frozen=True)
 class MoveMade:
     game_id: str
+    player_id: str
     column: Literal["A", "B", "C", "D", "E", "F", "G"]
 
 

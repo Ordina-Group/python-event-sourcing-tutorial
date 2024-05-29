@@ -63,4 +63,82 @@ def test_application_can_make_move_in_game():
 
     # THEN the game has a new MoveMade event
     saved_game = repository.get(game_obj.id)
-    assert saved_game.events[-1] == events.MoveMade(game_id=game_obj.id, column="A")
+    assert saved_game.events[-1] == events.MoveMade(
+        game_id=game_obj.id, player_id=player_one, column="A"
+    )
+
+
+@pytest.mark.parametrize(
+    ("recorded_events", "board_state"),
+    [
+        pytest.param(
+            [
+                events.GameStarted(game_id="game-1", player_one="p1", player_two="p2"),
+            ],
+            {
+                "A": [],
+                "B": [],
+                "C": [],
+                "D": [],
+                "E": [],
+                "F": [],
+                "G": [],
+            },
+            id="No moves",
+        ),
+        pytest.param(
+            [
+                events.GameStarted(game_id="game-1", player_one="p1", player_two="p2"),
+                events.MoveMade(game_id="game-1", player_id="p1", column="A"),
+            ],
+            {
+                "A": [game.Token.RED],
+                "B": [],
+                "C": [],
+                "D": [],
+                "E": [],
+                "F": [],
+                "G": [],
+            },
+            id="One moves",
+        ),
+        pytest.param(
+            [
+                events.GameStarted(game_id="game-1", player_one="p1", player_two="p2"),
+                events.MoveMade(game_id="game-1", player_id="p1", column="A"),
+                events.MoveMade(game_id="game-1", player_id="p2", column="A"),
+            ],
+            {
+                "A": [game.Token.RED, game.Token.YELLOW],
+                "B": [],
+                "C": [],
+                "D": [],
+                "E": [],
+                "F": [],
+                "G": [],
+            },
+            id="Two moves",
+        ),
+    ],
+)
+def test_can_get_the_state_of_a_game(
+    recorded_events: list[events.GameEvent],
+    board_state: dict[str, list[str]],
+) -> None:
+    # GIVEN a repository with an existing game
+    repository = FakeGameRepository()
+    game_obj = game.Game(
+        id="game-1",
+        player_one="p1",
+        player_two="p2",
+        events=recorded_events,
+    )
+    repository.add(game_obj)
+    # AND an instance of the application that uses that repo
+    app = application.ConnectFourApp(game_repository=repository)
+
+    # WHEN the game state is retrieved
+    game_state = app.get_game(game_id="game-1")
+
+    # THEN the game state is as expected
+    assert game_state == {"player_one": "p1", "player_two": "p2", "board": board_state}

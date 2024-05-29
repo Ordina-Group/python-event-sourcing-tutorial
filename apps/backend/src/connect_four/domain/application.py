@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Protocol
+from typing import Protocol, TypedDict
 
 import attrs
 
@@ -26,17 +26,24 @@ class ConnectFourApp:
         game = self._game_repository.get(game_id)
         game.make_move(move)
 
-    # def get_game(self, game_id: str) -> dict[str, str | list[str]]:
-    #     """Get the current state of a game.
-    #
-    #     :param game_id: the ID of the game
-    #     :return: the state of the game aggregate
-    #     """
-    #     return {
-    #         "player_one": "id-1",
-    #         "player_two": "id-2",
-    #         "events": [],
-    #     }
+    def get_game(self, game_id: str) -> GameState:
+        """Get the current state of a game.
+
+        :param game_id: the ID of the game
+        :return: the state of the game aggregate
+        """
+        game = self._game_repository.get(game_id)
+        return GameState(
+            player_one=game.player_one,
+            player_two=game.player_two,
+            board=game.board_state,
+        )
+
+
+class GameState(TypedDict):
+    player_one: str
+    player_two: str
+    board: dict[str, list[game_models.Token]]
 
 
 class IGameRepository(Protocol):

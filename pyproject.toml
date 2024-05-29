@@ -17,6 +17,7 @@ attrs = "^23.2.0"
 black = "^24.1.1"
 isort = "^5.13.2"
 pytest = "^8.2.1"
+mypy = "^1.10.0"
 
 
 [build-system]
