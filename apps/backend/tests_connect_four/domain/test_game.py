@@ -21,7 +21,7 @@ def test_cannot_make_a_move_in_a_full_column() -> None:
     game_obj = game.Game(player_one="player-1", player_two="player-2")
     game_obj.start_game()
     # AND events that filled up a specific column
-    game_obj.events.extend(
+    game_obj.uncommitted_events.extend(
         events.MoveMade(game_id=game_obj.id, player_id=f"player-{i % 2}", column="A")
         for i in range(1, 7)
     )

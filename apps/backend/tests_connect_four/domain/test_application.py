@@ -131,7 +131,7 @@ def test_can_get_the_state_of_a_game(
         id="game-1",
         player_one="p1",
         player_two="p2",
-        events=recorded_events,
+        committed_events=recorded_events,
     )
     repository.add(game_obj)
     # AND an instance of the application that uses that repo
