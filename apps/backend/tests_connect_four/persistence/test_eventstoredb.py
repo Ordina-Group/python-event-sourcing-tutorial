@@ -18,3 +18,21 @@ def test_application_with_eventstoredb_stores_game_started_event() -> None:
     # THEN the game has been persisted in the game's event stream
     recorded_events = client.get_stream(stream_name=f"game-{game_id}")
     assert len(recorded_events) == 1
+
+
+def test_application_with_eventstoredb_can_get_a_game() -> None:
+    # GIVEN an eventstoredb client
+    client = esdbclient.EventStoreDBClient(uri="esdb://localhost:2113?tls=false")
+    # AND an eventstoredb-backed game repository using that client
+    repository = eventstoredb.GameRepository(client)
+    # AND a Connect Four application that uses that repository
+    app = application.ConnectFourApp(repository)
+    # AND a game created for this application
+    game_id = app.create_game(player_one="player-1", player_two="player-2")
+
+    # WHEN the game state is retrieved from the repository
+    game_state = app.get_game(game_id=game_id)
+
+    # THEN the players are correct
+    assert game_state["player_one"] == "player-1"
+    assert game_state["player_two"] == "player-2"

@@ -1,7 +1,7 @@
 import attrs
 import pytest
 
-from connect_four.domain import application, game, events
+from connect_four.domain import application, events, game
 
 
 @attrs.define
@@ -50,8 +50,8 @@ def test_application_can_make_move_in_game():
     player_two = "id-2"
     # AND a repository with a started game between the players
     repository = FakeGameRepository()
-    game_obj = game.Game(player_one=player_one, player_two=player_two)
-    game_obj.start_game()
+    game_obj = game.Game()
+    game_obj.start_game(player_one=player_one, player_two=player_two)
     repository.add(game_obj)
     # AND an application that uses that repository
     app = application.ConnectFourApp(game_repository=repository)

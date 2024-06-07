@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from typing import Protocol, TypedDict
 
 import attrs
@@ -17,8 +18,8 @@ class ConnectFourApp:
         :param player_two: the ID of the second player
         :return: the ID of the game that was created
         """
-        game = game_models.Game(player_one, player_two)
-        game.start_game()
+        game = game_models.Game()
+        game.start_game(player_one, player_two)
         self._game_repository.add(game)
         return game.id
 
