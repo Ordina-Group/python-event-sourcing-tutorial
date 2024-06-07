@@ -7,14 +7,15 @@ from typing import Literal
 
 import attrs
 
-from connect_four.domain import events as domain_events, exceptions
+from connect_four.domain import events as domain_events
+from connect_four.domain import exceptions
 
 
 @attrs.define
 class Game:
-    player_one: str
-    player_two: str
     id: str = attrs.field(default=attrs.Factory(lambda: str(uuid.uuid4())))
+    player_one: str | None = attrs.field(default=None)
+    player_two: str | None = attrs.field(default=None)
     committed_events: list[domain_events.GameEvent] = attrs.field(
         default=attrs.Factory(list)
     )
@@ -26,7 +27,7 @@ class Game:
     def events(self) -> list[domain_events.GameEvent]:
         return self.committed_events + self.uncommitted_events
 
-    def start_game(self) -> None:
+    def start_game(self, player_one: str, player_two: str) -> None:
         """Start a game.
 
         This command starts a game and creates a GameStarted event.
@@ -38,8 +39,9 @@ class Game:
                 f"Game {self.id!r} has already started."
             )
 
+        self.player_one, self.player_two = player_one, player_two
         self.uncommitted_events.append(
-            domain_events.GameStarted(self.id, self.player_one, self.player_two)
+            domain_events.GameStarted(self.id, player_one, player_two)
         )
 
     def make_move(self, move: Move) -> None:
@@ -63,6 +65,24 @@ class Game:
                 game_id=self.id, player_id=move.player, column=move.column
             )
         )
+
+    def load_from_history(self, events: list[domain_events.GameEvent]) -> None:
+        """Load events into game.
+
+        :param events: Events to be added and applied to the game
+        """
+        self.committed_events = events
+        for event in events:
+            self.apply(event)
+
+    def apply(self, event: domain_events.GameEvent) -> None:
+        """Apply event to the game."""
+        match event:
+            case domain_events.GameStarted():
+                self.player_one = event.player_one
+                self.player_two = event.player_two
+            case domain_events.MoveMade():
+                ...
 
     @property
     def _expected_next_player(self) -> str:
