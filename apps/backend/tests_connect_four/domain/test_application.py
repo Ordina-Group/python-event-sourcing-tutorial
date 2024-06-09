@@ -11,6 +11,10 @@ class FakeGameRepository:
         """"""
         self.games[game_obj.id] = game_obj
 
+    def update(self, game_obj: game.Game) -> None:
+        """"""
+        self.games[game_obj.id] = game_obj
+
     def get(self, game_id: str) -> game.Game:
         return self.games[game_id]
 
