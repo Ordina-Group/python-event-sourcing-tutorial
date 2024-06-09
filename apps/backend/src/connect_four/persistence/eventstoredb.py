@@ -4,7 +4,6 @@ import json
 
 import attrs
 import esdbclient
-
 from connect_four.domain import events as domain_events
 from connect_four.domain import game as game_model
 

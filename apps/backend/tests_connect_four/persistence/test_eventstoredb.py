@@ -1,5 +1,4 @@
 import esdbclient
-
 from connect_four.domain import application
 from connect_four.persistence import eventstoredb
 

@@ -1,6 +1,5 @@
 import attrs
 import pytest
-
 from connect_four.domain import application, events, game
 
 
