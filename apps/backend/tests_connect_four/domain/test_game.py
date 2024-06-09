@@ -1,7 +1,5 @@
-from typing import Literal
-
 import pytest
-
+from connect_four.domain import events
 from connect_four.domain import events as domain_events
 from connect_four.domain import exceptions, game
 

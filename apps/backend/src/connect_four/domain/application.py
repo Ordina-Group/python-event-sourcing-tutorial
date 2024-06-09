@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Protocol, TypedDict
 
 import attrs
-
 from connect_four.domain import game as game_models
 
 

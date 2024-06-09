@@ -6,7 +6,6 @@ from collections.abc import Iterator
 from typing import Literal
 
 import attrs
-
 from connect_four.domain import events as domain_events
 from connect_four.domain import exceptions
 
