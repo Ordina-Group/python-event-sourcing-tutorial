@@ -10,6 +10,20 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      eventstoredb:
+        image: eventstore/eventstore:latest
+        env:
+            EVENTSTORE_CLUSTER_SIZE: 1
+            EVENTSTORE_RUN_PROJECTIONS: All
+            EVENTSTORE_START_STANDARD_PROJECTIONS: true
+            EVENTSTORE_HTTP_PORT: 2113
+            EVENTSTORE_INSECURE: true
+            EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP: true
+        ports:
+          - 1113:1113
+          - 2113:2113
+
     strategy:
       max-parallel: 4
       matrix:
