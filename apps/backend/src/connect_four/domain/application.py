@@ -25,6 +25,7 @@ class ConnectFourApp:
     def make_move(self, game_id: str, move: game_models.Move) -> None:
         game = self._game_repository.get(game_id)
         game.make_move(move)
+        self._game_repository.update(game)
 
     def get_game(self, game_id: str) -> GameState:
         """Get the current state of a game.
@@ -51,6 +52,12 @@ class IGameRepository(Protocol):
         """Add a game in the repository.
 
         :param game: The game to save
+        """
+
+    def update(self, game: game_models.Game) -> None:
+        """Update the game in the repository.
+
+        :param game: The game to persist
         """
 
     def get(self, game_id: str) -> game_models.Game:
