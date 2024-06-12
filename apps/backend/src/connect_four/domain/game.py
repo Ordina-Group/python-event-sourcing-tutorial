@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-import enum
 import uuid
 from collections.abc import Iterator
 from typing import Literal
 
 import attrs
+from connect_four.domain import board
 from connect_four.domain import events as domain_events
 from connect_four.domain import exceptions
 
@@ -13,18 +13,25 @@ from connect_four.domain import exceptions
 @attrs.define
 class Game:
     id: str = attrs.field(default=attrs.Factory(lambda: str(uuid.uuid4())))
-    player_one: str | None = attrs.field(default=None)
-    player_two: str | None = attrs.field(default=None)
+    player_one: str | None = None
+    player_two: str | None = None
     committed_events: list[domain_events.GameEvent] = attrs.field(
         default=attrs.Factory(list)
     )
     uncommitted_events: list[domain_events.GameEvent] = attrs.field(
         default=attrs.Factory(list)
     )
+    result: domain_events.GameResult | None = None
+    _board: board.Board = attrs.field(init=False, default=attrs.Factory(board.Board))
 
     @property
     def events(self) -> list[domain_events.GameEvent]:
         return self.committed_events + self.uncommitted_events
+
+    @property
+    def is_finished(self) -> bool:
+        """Whether the game has ended."""
+        return self.result is not None
 
     def start_game(self, player_one: str, player_two: str) -> None:
         """Start a game.
@@ -50,7 +57,7 @@ class Game:
 
         :param move: the move to make
         """
-        if len(self.board_state[move.column]) >= 6:
+        if not self._board.has_capacity_in_column(board.Column(move.column)):
             raise exceptions.InvalidMoveError(
                 f"Cannot make a move in column {move.column!r} because it is full."
             )
@@ -59,11 +66,25 @@ class Game:
                 f"Player {move.player!r} cannot make a move out of order."
             )
 
-        self.uncommitted_events.append(
-            domain_events.MoveMade(
-                game_id=self.id, player_id=move.player, column=move.column
-            )
+        move_event = domain_events.MoveMade(
+            game_id=self.id, player_id=move.player, column=move.column
         )
+        self.uncommitted_events.append(move_event)
+        self._check_if_game_is_finished_after_move(move_event)
+
+    def _check_if_game_is_finished_after_move(
+        self, move_event: domain_events.MoveMade
+    ) -> None:
+        """Check if the game is finished and emit an event if so.
+
+        :param move_event: The move that was just made.
+        """
+        self.apply(move_event)
+        result = self._board.get_result()
+        if result is not None:
+            self.result = result
+            game_ended = domain_events.GameEnded(game_id=self.id, result=result)
+            self.uncommitted_events.append(game_ended)
 
     def load_from_history(self, events: list[domain_events.GameEvent]) -> None:
         """Load events into game.
@@ -81,7 +102,15 @@ class Game:
                 self.player_one = event.player_one
                 self.player_two = event.player_two
             case domain_events.MoveMade():
-                ...
+                token = (
+                    board.Token.RED
+                    if event.player_id == self.player_one
+                    else board.Token.YELLOW
+                )
+                column = board.Column(event.column)
+                self._board.add_move(column, token)
+            case domain_events.GameEnded(result=result):
+                self.result = result
 
     @property
     def _expected_next_player(self) -> str:
@@ -89,32 +118,16 @@ class Game:
         return self.player_one if len(made_move_events) % 2 == 0 else self.player_two
 
     @property
-    def board_state(self) -> dict[str, list[Token]]:
+    def board(self) -> dict[str, list[board.Token]]:
         """The current state of the board."""
-        board = {
-            "A": [],
-            "B": [],
-            "C": [],
-            "D": [],
-            "E": [],
-            "F": [],
-            "G": [],
-        }
-        for event in self.made_move_events:
-            token = Token.RED if event.player_id == self.player_one else Token.YELLOW
-            board[event.column].append(token)
-        return board
+        board_state = self._board.board_state
+        return {col: board_state[board.Column(col)] for col in "ABCDEFG"}
 
     @property
     def made_move_events(self) -> Iterator[domain_events.MoveMade]:
         for event in self.events:
             if isinstance(event, domain_events.MoveMade):
                 yield event
-
-
-class Token(enum.Enum):
-    RED = "RED"
-    YELLOW = "YELLOW"
 
 
 @attrs.define(frozen=True)

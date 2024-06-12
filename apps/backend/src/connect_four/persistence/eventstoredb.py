@@ -88,7 +88,11 @@ def _map_domain_event_to_eventstore_event(
                 type="MoveMade",
                 data=json_data.encode("utf-8"),
             )
-
+        case domain_events.GameEnded(game_id=game_id, result=result):
+            data = {"game_id": game_id, "result": result.value}
+            return esdbclient.NewEvent(
+                "GameEnded", data=json.dumps(data).encode("utf-8")
+            )
         case _:
             raise NotImplementedError(
                 f"Mapping of {event} is not supported"

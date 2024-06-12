@@ -13,6 +13,7 @@ python = "^3.12"
 fastapi = "^0.111.0"
 attrs = "^23.2.0"
 esdbclient = "^1.0.25"
+more-itertools = "^10.3.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"

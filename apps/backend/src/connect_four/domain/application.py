@@ -4,6 +4,7 @@ from typing import Protocol, TypedDict
 
 import attrs
 from connect_four.domain import game as game_models
+from connect_four.domain import board as board_models
 
 
 @attrs.define
@@ -37,14 +38,14 @@ class ConnectFourApp:
         return GameState(
             player_one=game.player_one,
             player_two=game.player_two,
-            board=game.board_state,
+            board=game.board,
         )
 
 
 class GameState(TypedDict):
-    player_one: str
-    player_two: str
-    board: dict[str, list[game_models.Token]]
+    player_one: str | None
+    player_two: str | None
+    board: dict[str, list[board_models.Token]]
 
 
 class IGameRepository(Protocol):

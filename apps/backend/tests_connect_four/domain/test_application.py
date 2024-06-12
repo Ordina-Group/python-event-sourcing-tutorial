@@ -1,6 +1,6 @@
 import attrs
 import pytest
-from connect_four.domain import application, events, game
+from connect_four.domain import application, board, events, game
 
 
 @attrs.define
@@ -95,7 +95,7 @@ def test_application_can_make_move_in_game():
                 events.MoveMade(game_id="game-1", player_id="p1", column="A"),
             ],
             {
-                "A": [game.Token.RED],
+                "A": [board.Token.RED],
                 "B": [],
                 "C": [],
                 "D": [],
@@ -112,7 +112,7 @@ def test_application_can_make_move_in_game():
                 events.MoveMade(game_id="game-1", player_id="p2", column="A"),
             ],
             {
-                "A": [game.Token.RED, game.Token.YELLOW],
+                "A": [board.Token.RED, board.Token.YELLOW],
                 "B": [],
                 "C": [],
                 "D": [],
@@ -132,10 +132,8 @@ def test_can_get_the_state_of_a_game(
     repository = FakeGameRepository()
     game_obj = game.Game(
         id="game-1",
-        player_one="p1",
-        player_two="p2",
-        committed_events=recorded_events,
     )
+    game_obj.load_from_history(recorded_events)
     repository.add(game_obj)
     # AND an instance of the application that uses that repo
     app = application.ConnectFourApp(game_repository=repository)
