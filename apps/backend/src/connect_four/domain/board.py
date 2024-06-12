@@ -135,6 +135,7 @@ class Board:
         return len(self._board_state[column]) < _NUMBER_OF_ROWS
 
     def __str__(self) -> str:
+        """Return a string representation of the board."""
         return _generate_board_string(self._board_state)
 
 
