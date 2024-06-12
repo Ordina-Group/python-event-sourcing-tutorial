@@ -72,3 +72,31 @@ A workshop Event Sourcing for an office day of the Ordina Pythoneers.
 - Snapshots
 - Mention existing packages for event sourcing in Python
 - Q&A
+
+# Running the Connect Four application on your local machine
+
+## Application
+
+The application uses Poetry as a package management tool.
+
+Use the command `poetry shell` to create a python shell.
+
+Use the command `poetry run pytest` to run all the tests in the application.
+
+## Running Eventstore DB on your local machine
+
+> :warning: **If you are using a Apple silicon Macbook**: Read below!
+>
+EvenstoreDB can be run on your local machine, using the supplied [Docker Compose](compose.yaml) file.
+If you have docker installed in your local machine, you can start the EventstoreDB with the command:
+
+```shell
+docker compose up eventstore.db
+```
+
+Visit http://localhost:2113/ to view the EventstoreDB.
+
+### EventstoreDB on Apple Silicon
+
+For the Apple Silicon, EventstoreDB provides a different container.
+Please edit the `compose.yaml` file, and see the instructions in this file.
