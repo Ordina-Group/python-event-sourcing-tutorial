@@ -59,7 +59,7 @@ def test_application_can_make_move_in_game():
     # AND an application that uses that repository
     app = application.ConnectFourApp(game_repository=repository)
     # AND a move to make
-    move = game.Move(player=player_one, column="A", turn=1)
+    move = game.Move(player=player_one, column=board.Column("A"))
 
     # WHEN a move is made
     app.make_move(game_obj.id, move)
@@ -67,25 +67,31 @@ def test_application_can_make_move_in_game():
     # THEN the game has a new MoveMade event
     saved_game = repository.get(game_obj.id)
     assert saved_game.events[-1] == events.MoveMade(
-        game_id=game_obj.id, player_id=player_one, column="A"
+        game_id=game_obj.id, player_id=player_one, column=board.Column("A")
     )
 
 
 @pytest.mark.parametrize(
-    ("recorded_events", "board_state"),
+    ("recorded_events", "expected_game_state"),
     [
         pytest.param(
             [
                 events.GameStarted(game_id="game-1", player_one="p1", player_two="p2"),
             ],
             {
-                "A": [],
-                "B": [],
-                "C": [],
-                "D": [],
-                "E": [],
-                "F": [],
-                "G": [],
+                "player_one": "p1",
+                "player_two": "p2",
+                "board": {
+                    board.Column.A: [],
+                    board.Column.B: [],
+                    board.Column.C: [],
+                    board.Column.D: [],
+                    board.Column.E: [],
+                    board.Column.F: [],
+                    board.Column.G: [],
+                },
+                "next_player": "p1",
+                "result": None,
             },
             id="No moves",
         ),
@@ -95,13 +101,19 @@ def test_application_can_make_move_in_game():
                 events.MoveMade(game_id="game-1", player_id="p1", column="A"),
             ],
             {
-                "A": [board.Token.RED],
-                "B": [],
-                "C": [],
-                "D": [],
-                "E": [],
-                "F": [],
-                "G": [],
+                "player_one": "p1",
+                "player_two": "p2",
+                "board": {
+                    board.Column.A: [board.Token.RED],
+                    board.Column.B: [],
+                    board.Column.C: [],
+                    board.Column.D: [],
+                    board.Column.E: [],
+                    board.Column.F: [],
+                    board.Column.G: [],
+                },
+                "next_player": "p2",
+                "result": None,
             },
             id="One moves",
         ),
@@ -112,21 +124,26 @@ def test_application_can_make_move_in_game():
                 events.MoveMade(game_id="game-1", player_id="p2", column="A"),
             ],
             {
-                "A": [board.Token.RED, board.Token.YELLOW],
-                "B": [],
-                "C": [],
-                "D": [],
-                "E": [],
-                "F": [],
-                "G": [],
+                "player_one": "p1",
+                "player_two": "p2",
+                "board": {
+                    board.Column.A: [board.Token.RED, board.Token.YELLOW],
+                    board.Column.B: [],
+                    board.Column.C: [],
+                    board.Column.D: [],
+                    board.Column.E: [],
+                    board.Column.F: [],
+                    board.Column.G: [],
+                },
+                "next_player": "p1",
+                "result": None,
             },
             id="Two moves",
         ),
     ],
 )
 def test_can_get_the_state_of_a_game(
-    recorded_events: list[events.GameEvent],
-    board_state: dict[str, list[str]],
+    recorded_events: list[events.GameEvent], expected_game_state: application.GameState
 ) -> None:
     # GIVEN a repository with an existing game
     repository = FakeGameRepository()
@@ -142,4 +159,4 @@ def test_can_get_the_state_of_a_game(
     game_state = app.get_game(game_id="game-1")
 
     # THEN the game state is as expected
-    assert game_state == {"player_one": "p1", "player_two": "p2", "board": board_state}
+    assert game_state == expected_game_state

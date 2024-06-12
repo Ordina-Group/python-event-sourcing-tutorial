@@ -81,7 +81,7 @@ def _map_domain_event_to_eventstore_event(
             data = {
                 "game_id": game_id,
                 "player_id": player_id,
-                "column": column,
+                "column": column.value,
             }
             json_data = json.dumps(data)
             return esdbclient.NewEvent(

@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Protocol, TypedDict
 
 import attrs
-from connect_four.domain import game as game_models
+from connect_four.domain import game as game_models, events
 from connect_four.domain import board as board_models
 
 
@@ -38,6 +38,8 @@ class ConnectFourApp:
         return GameState(
             player_one=game.player_one,
             player_two=game.player_two,
+            next_player=game.expected_next_player,
+            result=game.result,
             board=game.board,
         )
 
@@ -45,7 +47,9 @@ class ConnectFourApp:
 class GameState(TypedDict):
     player_one: str | None
     player_two: str | None
-    board: dict[str, list[board_models.Token]]
+    next_player: str | None
+    result: events.GameResult | None
+    board: board_models.BoardState
 
 
 class IGameRepository(Protocol):

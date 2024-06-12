@@ -5,6 +5,8 @@ from typing import Literal, Protocol
 
 import attrs
 
+from connect_four.domain import board
+
 
 class GameEvent(Protocol):
     game_id: str
@@ -14,7 +16,7 @@ class GameEvent(Protocol):
 class MoveMade:
     game_id: str
     player_id: str
-    column: Literal["A", "B", "C", "D", "E", "F", "G"]
+    column: board.Column
 
 
 @attrs.define(frozen=True)

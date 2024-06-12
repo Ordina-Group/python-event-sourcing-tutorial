@@ -45,10 +45,12 @@ class Game:
                 f"Game {self.id!r} has already started."
             )
 
-        self.player_one, self.player_two = player_one, player_two
-        self.uncommitted_events.append(
-            domain_events.GameStarted(self.id, player_one, player_two)
-        )
+        game_started = domain_events.GameStarted(self.id, player_one, player_two)
+        self._emit_event(game_started)
+
+    def _emit_event(self, event: domain_events.GameEvent) -> None:
+        self.apply(event)
+        self.uncommitted_events.append(event)
 
     def make_move(self, move: Move) -> None:
         """Make a move in the game.
@@ -61,7 +63,7 @@ class Game:
             raise exceptions.InvalidMoveError(
                 f"Cannot make a move in column {move.column!r} because it is full."
             )
-        if self._expected_next_player != move.player:
+        if self.expected_next_player != move.player:
             raise exceptions.InvalidMoveError(
                 f"Player {move.player!r} cannot make a move out of order."
             )
@@ -69,22 +71,18 @@ class Game:
         move_event = domain_events.MoveMade(
             game_id=self.id, player_id=move.player, column=move.column
         )
-        self.uncommitted_events.append(move_event)
-        self._check_if_game_is_finished_after_move(move_event)
+        self._emit_event(move_event)
+        self._check_if_game_is_finished_after_move()
 
-    def _check_if_game_is_finished_after_move(
-        self, move_event: domain_events.MoveMade
-    ) -> None:
+    def _check_if_game_is_finished_after_move(self) -> None:
         """Check if the game is finished and emit an event if so.
 
         :param move_event: The move that was just made.
         """
-        self.apply(move_event)
         result = self._board.get_result()
         if result is not None:
-            self.result = result
             game_ended = domain_events.GameEnded(game_id=self.id, result=result)
-            self.uncommitted_events.append(game_ended)
+            self._emit_event(game_ended)
 
     def load_from_history(self, events: list[domain_events.GameEvent]) -> None:
         """Load events into game.
@@ -113,15 +111,14 @@ class Game:
                 self.result = result
 
     @property
-    def _expected_next_player(self) -> str:
+    def expected_next_player(self) -> str:
         made_move_events = list(self.made_move_events)
         return self.player_one if len(made_move_events) % 2 == 0 else self.player_two
 
     @property
-    def board(self) -> dict[str, list[board.Token]]:
+    def board(self) -> board.BoardState:
         """The current state of the board."""
-        board_state = self._board.board_state
-        return {col: board_state[board.Column(col)] for col in "ABCDEFG"}
+        return self._board.board_state
 
     @property
     def made_move_events(self) -> Iterator[domain_events.MoveMade]:
@@ -133,5 +130,4 @@ class Game:
 @attrs.define(frozen=True)
 class Move:
     player: str
-    column: Literal["A", "B", "C", "D", "E", "F", "G"]
-    turn: int
+    column: board.Column
