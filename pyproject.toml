@@ -5,7 +5,7 @@ description = "Event Sourcing with Python: A Connect Four Game"
 authors = ["Sebastiaan Zeeff <sebastiaan.zeeff@ordina.nl>"]
 readme = "README.md"
 packages = [
-    {"include" = "connect_four", from = "apps/backend/src"}
+    {"include" = "connect_four", from = "src"}
 ]
 
 [tool.poetry.dependencies]
