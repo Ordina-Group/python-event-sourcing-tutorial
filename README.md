@@ -1,21 +1,74 @@
 # Event Sourcing Workshop
+
 A workshop Event Sourcing for an office day of the Ordina Pythoneers.
 
 ## Outline
 
-- [15m] Introduction to Event Sourcing, including some background on Domain Modeling/DDD
-    -  
-- [15m] Introductory exercise & troubleshooting participant setups
-- [20m] Modeling the Game Events: Guided (& Simplified) Event Storming
-- [5m] Discussing the model that we're going to use in the rest of the tutorial
-- [10m] ---BREAK---
-- [30m] Creating our first events: Challenge another player and start a game (exercise)
-- [30m] State from events: Implement game events & reconstructing game state (exercise)
-- [10m] --BREAK--
-- [30m] Handling Concurrency: Optimistic Concurrency (exercise)
-- [15m] Ending Discussion/Q&A (see topics below)
---> When to use & when not to use
---> CQRS
---> Snapshots
---> Mention existing packages for event sourcing in Python
---> Q&A
+[13:00] Introduction to Event Sourcing, including some background on Domain Modeling/DDD
+[13:30] Modeling the Game Events: Guided (& Simplified) Event Storming
+[14:00] Intro Exercise 1
+[14:10] Exercise 1 [Start game]
+[14:50] Discussion Exercise 1 and intro Exercise 2
+[15:00] Exercise 2 [Play the game]
+[15:30] Discussion Exercise 2 and intro Exercise 3
+[15:40] Exercise 3 [Persisting the events]
+[16:10] Ending Discussion/Q&A
+[16:30] Drinks
+
+## Introduction to Event Sourcing
+
+- What is Event Sourcing?
+- Why would you use it?
+- State vs Events (including persistence)
+- Domain Modeling/DDD
+- Implementing the core instead of using a library
+- Overview of workshop
+
+## Modeling the Game Events
+
+- What are we modeling?
+- Short introduction to Event Storming
+- Guided Event Storming session (using Connect 4 live game)
+- Resulting events
+
+## Intro Exercises
+
+- Where to find the exercises
+- What to expect in Exercise 1
+- Check out branch `intro-exercise-1`
+
+## Exercise 1 [Start game]
+
+- Application service to start a game
+- Aggregate root of the game
+- Start a game through the application service
+
+## Discussion Exercise 1 and intro Exercise 2
+
+- Show finished solution
+- What to expect in Exercise 2
+- Check out branch `exercise-2-play-game`
+
+## Exercise 2 [Play the game]
+
+- Application service to play a move
+- How to handle end of the game
+
+## Discussion Exercise 2 and intro Exercise 3
+
+- Show finished solution
+- What to expect in Exercise 3
+- Check out branch `exercise-3-persist-events`
+
+## Exercise 3 [Persisting the events]
+
+- Event store
+- Persisting events through repository
+- Loading events from the event store
+
+# Ending Discussion/Q&A
+- When to use & when not to use
+- CQRS
+- Snapshots
+- Mention existing packages for event sourcing in Python
+- Q&A
