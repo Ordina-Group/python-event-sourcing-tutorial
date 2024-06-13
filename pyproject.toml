@@ -4,9 +4,23 @@ version = "0.1.0"
 description = "Event Sourcing with Python: A Connect Four Game"
 authors = ["Sebastiaan Zeeff <sebastiaan.zeeff@ordina.nl>"]
 readme = "README.md"
+packages = [
+    {"include" = "connect_four", from = "src"}
+]
 
 [tool.poetry.dependencies]
 python = "^3.12"
+fastapi = "^0.111.0"
+attrs = "^23.2.0"
+esdbclient = "^1.0.25"
+more-itertools = "^10.3.0"
+colorama = "^0.4.6"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+isort = "^5.13.2"
+pytest = "^8.2.1"
+mypy = "^1.10.0"
 
 
 [build-system]

@@ -1,0 +1,28 @@
+services:
+  eventstore.db:
+    # If you have a Macbook with Apple Silicon (M1/M2/M3),
+    # uncomment line 5 and comment out line 6.
+    # image: eventstore/eventstore:24.2.0-alpha-arm64v8
+    image: eventstore/eventstore:24.2.0
+    restart: unless-stopped
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_HTTP_PORT=2113
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    ports:
+      - "1113:1113"
+      - "2113:2113"
+    volumes:
+      - type: volume
+        source: eventstore-volume-data
+        target: /var/lib/eventstore
+      - type: volume
+        source: eventstore-volume-logs
+        target: /var/log/eventstore
+
+volumes:
+  eventstore-volume-data:
+  eventstore-volume-logs:
