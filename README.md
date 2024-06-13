@@ -355,7 +355,7 @@ that you can use to recreate the domain event you stored.
    of the game attribute.
 5. Call the helper method from the repository's `get`-method with the events
    resurrected from the event store.
-5. Now that you've recreated the `Game`-instance in the correct state, return
+6. Now that you've recreated the `Game`-instance in the correct state, return
    it to the caller,
 
 There's a test in `tests/persistence/test_game_repository.py` that you can use
