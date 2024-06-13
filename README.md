@@ -2,6 +2,8 @@
 
 A workshop Event Sourcing for an office day of the Ordina Pythoneers.
 
+![Image of an event sourcing workshop](/event-sourcing-workshop.jpg)
+
 # Local Setup
 
 ## Application
