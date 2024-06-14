@@ -221,7 +221,6 @@ the game, switch to the solution branch `solution-02-exercise-play-the-game`.
 ---
 
 
-
 ## Exercise 3 [Persisting the events]
 
 All that buzz about persisting events instead of state and we haven't even
@@ -233,6 +232,10 @@ below. You can start an instance using the `compose.yaml` file provided in the
 root of this repository.
 
 See [Local Setup](#local-setup) for more information on how to run EventStoreDB.
+
+EventStoreDB comes with a convenient web interface that you can use to inspect
+the events that you've stored. Once you have the docker container running, you
+can access the web interface by visiting http://localhost:2113/.
 
 ### 3.1. Preparation
 
