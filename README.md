@@ -2,6 +2,8 @@
 
 A workshop Event Sourcing for an office day of the Ordina Pythoneers.
 
+![Image of an event sourcing workshop](event-sourcing-workshop.jpg)
+
 # Local Setup
 
 ## Application
@@ -355,7 +357,7 @@ that you can use to recreate the domain event you stored.
    of the game attribute.
 5. Call the helper method from the repository's `get`-method with the events
    resurrected from the event store.
-6. Now that you've recreated the `Game`-instance in the correct state, return
+5. Now that you've recreated the `Game`-instance in the correct state, return
    it to the caller,
 
 There's a test in `tests/persistence/test_game_repository.py` that you can use
@@ -382,30 +384,29 @@ The problem is that when the events of the `Game`-instance were persisted after
 the move was made, the `Game.events` list contained two events: `GameStarted`
 and `MoveMade`.
 
-Since the `GameStarted`-event was already stored before the move was made but
-was also added to the `event`-stream when the game was recreated before making
-the move, saving the game after the move also saved another `GameStarted` event
-to the stream.
+Since we already stored the `GameStarted` event when we started the game,
+persisting our events list, which now contains both the `GameStarted` and the
+`MoveMade` event, will result in the `GameStarted` event being stored twice.
 
 This is obviously a problem.
 
 How would you solve this? Keep in mind that the `Game`-instance would be out of
-sync if were to omit historic events.
+sync if you were to omit historic events entirely.
 
 One solution to this problem is to separate the historical events from the
-uncommited events. This is the solution that we're going to implement here.
+uncommitted events. This is the solution that we're going to implement here.
 
 - Replace the `events`-attribute of the `Game`-class with two attributes:
-  `historical_events` and `uncommited_events`.
+  `historical_events` and `uncommitted_events`.
 - Change the `load_from_history`-method to store the historical events in the
   `historical_events`-attribute.
-- Change the `process_event-method` sp that it appends new events to the
-  `uncmmited_events`-attribute.
+- Change the `process_event-method` so that it appends new events to the
+  `uncommitted_events`-attribute.
 - Add a property, `events`, that returns the concatenation of the
-  `historical_events` and `uncommited_events`-attributes. Make sure to retain
+  `historical_events` and `uncommitted_events`-attributes. Make sure to retain
   the proper order of events in the concatenation.
-- Change the `GameRepository.add`-method to store the `uncommited_events` in the
-  event stream instead of all the events.
+- Change the `GameRepository.add`-method to store the `uncommitted_events` in
+  the event stream instead of all the events.
 
 Check if this solved the problem by rerunning the test from the previous
 exercise.
