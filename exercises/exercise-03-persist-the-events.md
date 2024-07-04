@@ -10,8 +10,7 @@ persisted anything yet. Let's change that.
 > exercise. You can start an instance using the `compose.yaml` file provided in
 > the root of this repository.
 >   
-> You can find more information [here](/README.md#running-eventstoredb) in the
-> README.
+> You can read more in our [README](/README.md#running-eventstoredb).
 
 > [!TIP]
 > EventStoreDB comes with a convenient web interface to check out the events
