@@ -213,7 +213,7 @@ the move was made, the `Game.events` list contained two events: `GameStarted`
 and `MoveMade`.
 
 Since we are *appending* events to the event and the `GameStarted` event was
-already stored when the game was creted, persisting the entire `Game.events`
+already stored when the game was created, persisting the entire `Game.events`
 list will store another `GameStarted` event!
 
 This is obviously a problem.
