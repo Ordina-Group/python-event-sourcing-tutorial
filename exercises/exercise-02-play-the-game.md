@@ -112,9 +112,5 @@ game, switch to the solution branch `solution-02-exercise-play-the-game`.**
 ---
 
 <p align="center">
-  [:arrow_left: Back to exercise 1][exercise-1] :heavy_minus_sign: [Continue to exercise 3 :arrow_right:][exercise-3]
+   <a href="/exercises/exercise-01-start-game.md">⬅️ Back to exercise 1</a> | <a href="/exercises/exercise-03-persist-the-events.md">Continue to exercise 3 ➡️</a>
 </p>
-
-[exercise-1]: /exercises/exercise-01-start-game.md
-[exercise-2]: /exercises/exercise-02-play-the-game.md
-[exercise-3]: /exercises/exercise-03-persist-the-events.md
