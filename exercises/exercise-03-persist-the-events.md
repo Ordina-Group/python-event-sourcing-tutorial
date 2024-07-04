@@ -114,9 +114,9 @@ In this exercise, you will implement the persistence logic required to make the
 > # Now you can append the NewEvent to the stream
 > client = esdbclient.EventStoreDBClient("esdb://localhost:2113?tls=false")
 > client.append_to_stream(
-    > stream_name=stream_name,
-    > current_version=esdbclient.StreamState.ANY,
-    > events=[event1]
+>     stream_name=stream_name,
+>     current_version=esdbclient.StreamState.ANY,
+>     events=[event1]
 > )
 > ```
 >  
