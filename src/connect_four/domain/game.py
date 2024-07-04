@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import uuid
+
 import attrs
 
 import connect_four.domain.result
@@ -14,6 +16,7 @@ from connect_four.domain import exceptions
 class Game:
     """A game of Connect Four."""
 
+    id: str = attrs.field(default=attrs.Factory(lambda: str(uuid.uuid4())))
     player_one: str | None = None
     player_two: str | None = None
     next_player: str | None = None
