@@ -25,14 +25,14 @@ poetry run pytest
 ```
 </details>
 
+<br>
 
-<br><br>
 ### 2.1. Preparation
 
 Switch to the branch `02-exercise-play-the-game`.
 
+<br>
 
-<br><br>
 ### 2.2. You've got to move it, move it
 
 What's a game without moves? To make a move in the game, a player has to be able
@@ -45,8 +45,8 @@ to issue a command that makes a move.
    Think about the data that you need to store in the event and the state such
    an event should influence.
 
+<br>
 
-<br><br>
 ### 2.3. Don't speak out of turn
 
 Making moves is great, but we need to be careful that players don't make moves
@@ -59,8 +59,8 @@ specific column, that column **must** have room for another token."
 **Hint:** The `Board`-class already provides a `has_room_in_column`-method that
 you can to perform the check.
 
+<br>
 
-<br><br>
 ### 2.4. The end is nigh (of the game, not of the workshop...)
 
 Now you can make a bunch of moves. There's just one problem: This game will
@@ -76,13 +76,15 @@ That's why you're going to get us out of this infinite game by implementing a
 <details>
   <summary>Hint: What Information Do You Need To Store?</summary>
 
-Remember that we're never going to persist the state of an aggregate as-is, only
-the events that determined the state. This means that if you want to store the
-result of a game. you have to associate that information with the event.
-
-How you store that information is a design choice. The game already "knows" who
-the players are, so you might just store "player a won", "player b won", or 
-"game ended in a draw".
+> [!TIP]
+> Remember that we're never going to persist the state of an aggregate as-is,
+> only the events that determined the state. This means that if you want to
+> store the result of a game. you have to associate that information with the
+> event.
+>   
+> How you store that information is a design choice. The game already "knows"
+> who the players are, so you might just store "player a won", "player b won",
+> or "game ended in a draw".
 </details>
 
 How will this event ever be triggered? In our case, this event is simply an
@@ -95,8 +97,8 @@ event that *sometimes* follows a `MoveMade`-event.
 
 Note: Don't forget to apply the event to the `Game`-aggregate!
 
+<br>
 
-<br><br>
 ### 2.5. All work and no play makes Jack a dull boy
 
 Use the CLI to beat another tutorial participant with the game you just
@@ -111,6 +113,7 @@ game, switch to the solution branch `solution-02-exercise-play-the-game`.**
 
 
 <br><br>
+
 ---
 
 <p align="center">
