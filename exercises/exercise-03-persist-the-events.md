@@ -97,7 +97,7 @@ In this exercise, you will implement the persistence logic required to make the
 `GaeRepository.add`-method store the events of a `Game` in EventStoreDB.
 
 <details>
-  <summary>*Quick Example of Using the EventStoreDBClient*</summary>
+  <summary><i>Quick Example of Using the EventStoreDBClient</i></summary>
 
 > Here's an example that appends events to a stream using the `EventStoreDBClient`:
 >   
@@ -143,24 +143,27 @@ In this exercise, you will implement the persistence logic required to make the
 
 ## 3.4. Now... where was I?
 
-Having a great memory is no use if you can't recall anything. In this exercise,
-you'll implement a method to retrieve a game from the repository. Since the only
-thing we've stored is an event, we do need to make sure that our repository
-creates a game and applies the events to it.
+Having a great memory is no use if you can't retrieve anything. So, let's add
+retrieval logic to the `GameRepository`.
 
-Retrieving events from a stream is fairly straightforward:
+<details>
+  <summary><i>Quick Example of Retrieving Events</i></summary>
 
-```python
-import esdbclient
+> Retrieving events from a stream is fairly straightforward:
+> 
+> ```python
+> import esdbclient
+> 
+> client = esdbclient.EventStoreDBClient("esdb://localhost:2113?tls=false")
+> recorded_events = client.get_stream("stream-name-here")
+> ```
+> 
+> The `EventStoreDBClient.get_stream`-method will return a `tuple` with `RecordedEvent`-objects. Like
+> `NewEvent`-objects, `RecordedEvent`-objects have a `type` and `data` attribute
+> that you can use to recreate the domain event you stored.
+</details>
 
-client = esdbclient.EventStoreDBClient("esdb://localhost:2113?tls=false")
-recorded_events = client.get_stream("stream-name-here")
-```
-
-The `get_stream`-method will return a `tuple` with `RecordedEvent`-objects. Like
-`NewEvent`-objects, `RecordedEvent`-objects have a `type` and `data` attribute
-that you can use to recreate the domain event you stored.
-
+<br>
 
 1. Add logic to the `get`-method that retrieves the events in the game stream.
 
@@ -179,9 +182,13 @@ that you can use to recreate the domain event you stored.
 6. Now that you've recreated the `Game`-instance in the correct state, return
    it to the caller,
 
-There's a test in `tests/persistence/test_game_repository.py` that you can use
-to test your implementation. (You do have to remove the skip decorator.)
+<br>
 
+> [!TIP]
+> There's a test in `tests/persistence/test_game_repository.py` that you can use
+> to test your implementation. (You do have to remove the skip decorator.)
+
+<br>
 
 ## 3.5. Show Me Your Moves
 
