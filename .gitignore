@@ -157,3 +157,4 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/python
 
 /copy-static-files-to-all-branches.sh
+.DS_Store
