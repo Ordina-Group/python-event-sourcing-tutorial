@@ -1,8 +1,12 @@
 [tool.poetry]
-name = "pythoneers-event-sourcing-workshop"
-version = "0.1.0"
-description = "Event Sourcing with Python: A Connect Four Game"
-authors = ["Sebastiaan Zeeff <sebastiaan.zeeff@ordina.nl>"]
+name = "python-event-sourcing-tutorial"
+version = "0.9.0"
+description = "Event Sourcing From The Ground Up: A Connect Four Game"
+authors = [
+    "Sebastiaan Zeeff <sebastiaan.zeeff@ordina.nl>",
+    "Ravi Selker <ravi.selker@ordina.nl>",
+    "Roel Adriaans <roel.adriaans@ordina.nl>",
+]
 readme = "README.md"
 packages = [
     {"include" = "connect_four", from = "src"}
@@ -10,18 +14,16 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "^0.111.0"
 attrs = "^23.2.0"
-esdbclient = "^1.0.25"
+esdbclient = "^1.1"
 more-itertools = "^10.3.0"
 colorama = "^0.4.6"
+pytest = "^8.2.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
 isort = "^5.13.2"
-pytest = "^8.2.1"
 mypy = "^1.10.0"
-
 
 [build-system]
 requires = ["poetry-core"]
