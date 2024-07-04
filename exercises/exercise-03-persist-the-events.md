@@ -97,7 +97,7 @@ In this exercise, you will implement the persistence logic required to make the
 `GaeRepository.add`-method store the events of a `Game` in EventStoreDB.
 
 <details>
-  <summary>Quick Example of Using the EventStoreDBClient</summary>
+  <summary>*Quick Example of Using the EventStoreDBClient*</summary>
 
 > Here's an example that appends events to a stream using the `EventStoreDBClient`:
 >   
@@ -121,6 +121,8 @@ In this exercise, you will implement the persistence logic required to make the
 > ```
 >  
 </details>
+
+<br>
 
 1. Add an implementation to `GameRepository.add` that persist a`Game` with only
    a `GameStarted`-event.
