@@ -76,7 +76,6 @@ That's why you're going to get us out of this infinite game by implementing a
 <details>
   <summary>Hint: What Information Do You Need To Store?</summary>
 
-> [!TIP]
 > Remember that we're never going to persist the state of an aggregate as-is,
 > only the events that determined the state. This means that if you want to
 > store the result of a game. you have to associate that information with the
