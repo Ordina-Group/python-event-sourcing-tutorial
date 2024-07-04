@@ -45,7 +45,7 @@ def generate_board_string(board_state: BoardState) -> str:
     # Fill the board based on the moves
     for col, player_moves in board_state.items():
         for row, player in enumerate(player_moves):
-            board[5 - row][ord(col.value) - ord("A")] = _colorize_token(player)
+            board[5 - row][ord(col) - ord("A")] = _colorize_token(player)
 
     # Define the top border with column numbers
     # Define the top border with column numbers

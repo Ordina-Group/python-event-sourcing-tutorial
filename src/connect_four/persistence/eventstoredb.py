@@ -72,12 +72,12 @@ def _map_domain_event_to_eventstore_event(
                 type="GameStarted", data=json.dumps(data).encode("utf-8")
             )
         case events.MoveMade(player=player, column=column):
-            data = {"player": player, "column": column.value}
+            data = {"player": player, "column": column}
             return esdbclient.NewEvent(
                 type="MoveMade", data=json.dumps(data).encode("utf-8")
             )
         case events.GameFinished(result=result):
-            data = {"result": result.value}
+            data = {"result": result}
             return esdbclient.NewEvent(
                 type="GameFinished", data=json.dumps(data).encode("utf-8")
             )

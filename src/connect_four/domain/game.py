@@ -145,5 +145,7 @@ class Game:
 
 @attrs.define(frozen=True)
 class Move:
+    """A move in a game of Connect Four."""
+
     player: str
     column: board.Column
