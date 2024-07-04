@@ -85,6 +85,16 @@ Now that we have a list to store the events, we want to "emit" and track a
 
 <br>
 
+> [!NOTE]
+> Normally, you'd store something that is guaranteed to uniquely identify the
+> players (e.g., a user ID) rather than the player names. However, for the sake
+> of simplicity, we're using the player names as identifiers in this tutorial.
+> 
+> Some of the code provided in this repository will use the player names for
+> comparisons. This only works well if you use unique player names...
+
+<br>
+
 ---
 
 ## 1.6. Those who remember the past are able to repeat it 
