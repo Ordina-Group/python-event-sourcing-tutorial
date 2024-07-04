@@ -6,23 +6,23 @@
 <details>
   <summary>Check your progress with the Connect Four CLI!</summary>
 
-To make the game more exciting, we've implemented a CLI-client that allows you
-to play a game of Connect Four. That is, if you manage to implement the
-necessary commands and events.
-
-Run the simply by executing the following command:
-
-```shell
-poetry run python -m connect_four.cli
-```
-
-Of course, another way to check your progress is by writing unit tests. We've
-already implemented a basic unit test for a game started constraint to give
-you an idea of how to write tests for the `Game`-aggregate.
-
-```shell
-poetry run pytest
-```
+> To make the game more exciting, we've implemented a CLI-client that allows you
+> to play a game of Connect Four. That is, if you manage to implement the
+> necessary commands and events.
+>   
+> Run the simply by executing the following command:
+>  
+> ```shell
+> poetry run python -m connect_four.cli
+> ```
+>  
+> Of course, another way to check your progress is by writing unit tests. We've
+> already implemented a basic unit test for a game started constraint to give
+> you an idea of how to write tests for the `Game`-aggregate.
+>  
+> ```shell
+> poetry run pytest
+> ```
 </details>
 
 <br>
