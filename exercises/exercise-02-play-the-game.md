@@ -4,13 +4,13 @@
 
 
 <details>
-  <summary>Play Connect Four with CLI Client!</summary>
+  <summary>Check your progress with the Connect Four CLI!</summary>
 
 To make the game more exciting, we've implemented a CLI-client that allows you
-To play a game of Connect Four. That is, if you manage to implement the
+to play a game of Connect Four. That is, if you manage to implement the
 necessary commands and events.
 
-To run the CLI simply run:
+Run the simply by executing the following command:
 
 ```shell
 poetry run python -m connect_four.cli
@@ -26,13 +26,13 @@ poetry run pytest
 </details>
 
 
-
+<br><br>
 ### 2.1. Preparation
 
 Switch to the branch `02-exercise-play-the-game`.
 
 
-
+<br><br>
 ### 2.2. You've got to move it, move it
 
 What's a game without moves? To make a move in the game, a player has to be able
@@ -46,7 +46,7 @@ to issue a command that makes a move.
    an event should influence.
 
 
-
+<br><br>
 ### 2.3. Don't speak out of turn
 
 Making moves is great, but we need to be careful that players don't make moves
@@ -60,7 +60,7 @@ specific column, that column **must** have room for another token."
 you can to perform the check.
 
 
-
+<br><br>
 ### 2.4. The end is nigh (of the game, not of the workshop...)
 
 Now you can make a bunch of moves. There's just one problem: This game will
@@ -96,7 +96,7 @@ event that *sometimes* follows a `MoveMade`-event.
 Note: Don't forget to apply the event to the `Game`-aggregate!
 
 
-   
+<br><br>
 ### 2.5. All work and no play makes Jack a dull boy
 
 Use the CLI to beat another tutorial participant with the game you just
@@ -109,6 +109,8 @@ poetry run python -m connect_four.cli
 **If you did not finish the previous exercises, but you still want to play the
 game, switch to the solution branch `solution-02-exercise-play-the-game`.**
 
+
+<br><br>
 ---
 
 <p align="center">
