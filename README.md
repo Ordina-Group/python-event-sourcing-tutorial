@@ -49,18 +49,18 @@ poetry install --only main --sync
 ```
 
 <details>
-  <summary>Additonal `poetry` commands</summary>
+  <summary><i>Additonal `poetry` commands</i></summary>
   
-  - Run `poetry shell` to spawn a shell with the virtual environment activated
-  - Run `poetry run python` to open a Python REPL within the virtual environment
-  - Run `poetry run pytest` to run all the tests
-  - Run `poetry run python -m connect_four.cli` to play "Connect Four" with a CLI
-    client. Note that the client uses your implementation, so it will only do
-    something interesting (e.g. "not crashing") after you've actually implemented
-    something!
-
-  Note: If you spawned a shell with `poetry shell`, you may omit the `poetry run`
-  from the commands listed above.
+> - Run `poetry shell` to spawn a shell with the virtual environment activated
+> - Run `poetry run python` to open a Python REPL within the virtual environment
+> - Run `poetry run pytest` to run all the tests
+> - Run `poetry run python -m connect_four.cli` to play "Connect Four" with a CLI
+>   client. Note that the client uses your implementation, so it will only do
+>   something interesting (e.g. "not crashing") after you've actually implemented
+>   something!
+> 
+> Note: If you spawned a shell with `poetry shell`, you may omit the `poetry run`
+> from the commands listed above.
 </details>
 
 

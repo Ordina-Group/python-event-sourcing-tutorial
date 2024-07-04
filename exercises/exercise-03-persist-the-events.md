@@ -24,6 +24,8 @@ Switch to the branch `03-exercise-persisting-the-events`.
 
 <br>
 
+---
+
 ## 3.2. Exploring the repoverse
 
 In the following exercises, you'll implement a `GameRepository` that persists
@@ -46,7 +48,7 @@ the `GameRepository`.
 1. Check out the stub in [`src/connect_four/persistence/`][esdb-game-repository]
 
 <details>
-  <summary>Writing tests for the repository</summary>
+  <summary><i>Writing tests for the repository</i></summary>
 
 > The `GameRepository` expects an instance of the `EventStoreDBClient` to
 > interact with EventStoreDB. You can inject an instance of the client like 
@@ -82,6 +84,8 @@ the `GameRepository`.
 [esdb-game-repository]:  /src/connect_four/persistence/eventstoredb.py
 
 <br>
+
+---
 
 ## 3.3. If a game starts in the forest...
 
@@ -143,6 +147,8 @@ In this exercise, you will implement the persistence logic required to make the
 
 <br>
 
+---
+
 ## 3.4. Now... where was I?
 
 Having a great memory is no use if you can't retrieve anything. So, let's add
@@ -192,6 +198,8 @@ retrieval logic to the `GameRepository`.
 
 <br>
 
+---
+
 ## 3.5. Show Me Your Moves
 
 1. Now add support for persisting and retrieving `MoveMade` events by adding the
@@ -205,6 +213,8 @@ retrieval logic to the `GameRepository`.
    stream. What's going on here?
 
 <br>
+
+---
 
 ### 3.6. Those who include history are forced to repeat it
 
@@ -248,6 +258,8 @@ uncommitted events. This is the solution that we're going to implement here.
    exercise.
 
 <br>
+
+---
 
 ## 3.7. The end is nigh (of the workshop, not the game...)
 

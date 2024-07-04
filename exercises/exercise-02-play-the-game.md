@@ -4,7 +4,7 @@
 
 
 <details>
-  <summary>Check your progress with the Connect Four CLI!</summary>
+  <summary><i>Check your progress with the Connect Four CLI!</i></summary>
 
 > To make the game more exciting, we've implemented a CLI-client that allows you
 > to play a game of Connect Four. That is, if you manage to implement the
@@ -27,11 +27,15 @@
 
 <br>
 
+---
+
 ### 2.1. Preparation
 
 Switch to the branch `02-exercise-play-the-game`.
 
 <br>
+
+---
 
 ### 2.2. You've got to move it, move it
 
@@ -47,6 +51,8 @@ to issue a command that makes a move.
 
 <br>
 
+---
+
 ### 2.3. Don't speak out of turn
 
 Making moves is great, but we need to be careful that players don't make moves
@@ -61,6 +67,8 @@ you can to perform the check.
 
 <br>
 
+---
+
 ### 2.4. The end is nigh (of the game, not the workshop...)
 
 Now you can make a bunch of moves. There's just one problem: This game will
@@ -74,7 +82,7 @@ That's why you're going to get us out of this infinite game by implementing a
    it should contain.
 
 <details>
-  <summary>Hint: What Information Do You Need To Store?</summary>
+  <summary><i>Hint: What Information Do You Need To Store?</i></summary>
 
 > Remember that we're never going to persist the state of an aggregate as-is,
 > only the events that determined the state. This means that if you want to
@@ -97,6 +105,8 @@ event that *sometimes* follows a `MoveMade`-event.
 Note: Don't forget to apply the event to the `Game`-aggregate!
 
 <br>
+
+---
 
 ### 2.5. All work and no play makes Jack a dull boy
 

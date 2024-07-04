@@ -91,7 +91,8 @@ Now that we have a list to store the events, we want to "emit" and track a
 > of simplicity, we're using the player names as identifiers in this tutorial.
 > 
 > Some of the code provided in this repository will use the player names for
-> comparisons. This only works well if you use unique player names...
+> comparisons. This only works well if you use unique player names, especially
+> later on in the tutorial.
 
 <br>
 
