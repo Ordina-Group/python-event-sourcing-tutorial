@@ -48,7 +48,6 @@ the `GameRepository`.
 <details>
   <summary>Writing tests for the repository</summary>
 
-> [!TIP]
 > The `GameRepository` expects an instance of the `EventStoreDBClient` to
 > interact with EventStoreDB. You can inject an instance of the client like 
 > this:
@@ -68,17 +67,16 @@ the `GameRepository`.
 > not be cleaned between tests (or between test runs). This is not ideal, but we
 > want you to interact with an actual event store.
 > 
-> As our game stream will use the Game ID in its name, which is a random UUID,
+> As our game streams will use Game IDs in their names, which is a random UUIDs,
 > this shouldn't cause too many issues for this tutorial. If you want to write
 > integration tests for actual projects, you could consider using a test
-> container or in-memory event store that you restart between tests or test
+> container or an in-memory event store that you restart between tests or test
 > runs.
 > 
 > Alternatively, if this really bothers you, you can [inject][there-is-nothing-difficult-about-this] a test double.
 </details>
 
-[there-is-nothing-difficult-about-this]: https://www.youtube.com/watch?v=uWTvMCra-_Y&t=364s
-
+[there-is-nothing-difficult-about-this]: https://www.youtube.com/clip/Ugkxk8enfYMInruaxQWXb90kVF3J9Jivgs9n
 
 [application-directory]: /src/connect_four/application/
 [esdb-game-repository]:  /src/connect_four/persistence/eventstoredb.py
