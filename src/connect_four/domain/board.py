@@ -13,7 +13,7 @@ from connect_four.domain import result
 BoardState: TypeAlias = "dict[Column, list[Token]]"
 
 
-class Column(enum.Enum):
+class Column(enum.StrEnum):
     """A column in a board."""
 
     A = "A"
@@ -25,7 +25,7 @@ class Column(enum.Enum):
     G = "G"
 
 
-class Token(enum.Enum):
+class Token(enum.StrEnum):
     """A token for a game of Connect Four."""
 
     RED = "RED"
@@ -95,7 +95,7 @@ class Board:
         return not any(self.has_room_in_column(col) for col in Column)
 
     def _get_columns(self) -> Iterator[list[Token | None]]:
-        """An iterator that yields columns.
+        """Get an iterator that yields columns.
 
         To ensure a 6 rows by 7 columns board, the columns are padded
         with `None`-values if a column isn't completed filed. This makes
@@ -107,10 +107,11 @@ class Board:
         )
 
     def _get_rows(self) -> Iterator[list[Token | None]]:
-        """An iterator that yields columns."""
+        """Get an iterator that yields columns."""
         return (list(row) for row in more_itertools.transpose(self._get_columns()))
 
     def _get_diagonals(self) -> Iterator[list[Token | None]]:
+        """Get an iterator that yields diagonals."""
         board = list(self._get_columns())
         for diagonal in itertools.chain(_FORWARD_DIAGONALS, _BACKWARD_DIAGONALS):
             yield [board[col][row] for col, row in diagonal]
