@@ -135,6 +135,8 @@ In this exercise, you will implement the persistence logic required to make the
    2. Determine the stream name based on the game ID using `f"game-{game.id}"`.
    3. Append the event to the stream using the `EventStoreDBClient`.
 
+<br>
+
 > [!TIP]
 > There's a test in `tests/persistence/test_game_repository.py` that you can use
 > to test your implementation.
@@ -202,6 +204,7 @@ retrieval logic to the `GameRepository`.
    As you can see, we've appended three rather than two events to the event
    stream. What's going on here?
 
+<br>
 
 ### 3.6. Those who include history are forced to repeat it
 
@@ -209,36 +212,48 @@ The problem is that when the events of the `Game`-instance were persisted after
 the move was made, the `Game.events` list contained two events: `GameStarted`
 and `MoveMade`.
 
-Since we already stored the `GameStarted` event when we started the game,
-persisting our events list, which now contains both the `GameStarted` and the
-`MoveMade` event, will result in the `GameStarted` event being stored twice.
+Since we are *appending* events to the event and the `GameStarted` event was
+already stored when the game was creted, persisting the entire `Game.events`
+list will store another `GameStarted` event!
 
 This is obviously a problem.
 
 How would you solve this? Keep in mind that the `Game`-instance would be out of
-sync if you were to omit historic events entirely.
+sync if you were to omit historic events entirely. This is problematic because
+we do want to be able to check constraints and perform other business logic that
+relies on the historical events.
+
+<br>
 
 One solution to this problem is to separate the historical events from the
 uncommitted events. This is the solution that we're going to implement here.
 
-- Replace the `events`-attribute of the `Game`-class with two attributes:
-  `historical_events` and `uncommitted_events`.
-- Change the `load_from_history`-method to store the historical events in the
-  `historical_events`-attribute.
-- Change the `process_event-method` so that it appends new events to the
-  `uncommitted_events`-attribute.
-- Add a property, `events`, that returns the concatenation of the
-  `historical_events` and `uncommitted_events`-attributes. Make sure to retain
-  the proper order of events in the concatenation.
-- Change the `GameRepository.add`-method to store the `uncommitted_events` in
-  the event stream instead of all the events.
+1. Replace the `events`-attribute of the `Game`-class with two attributes:
+   `historical_events` and `uncommitted_events`.
 
-Check if this solved the problem by rerunning the test from the previous
-exercise.
+2. Change the `load_from_history`-method to store the historical events in the
+   `historical_events`-attribute.
 
-## 3.7. The end is nigh (of the workshop, not of the game...)
+3. Change the `process_event-method` so that it appends new events to the
+   `uncommitted_events`-attribute.
+
+4. Add a property, `events`, that returns the concatenation of the
+   `historical_events` and `uncommitted_events`-attributes. Make sure to retain
+   the proper order of events in the concatenation.
+
+5. Change the `GameRepository.add`-method to store the `uncommitted_events` in
+   the event stream instead of all the events.
+
+6. Check if this solved the problem by rerunning the test from the previous
+   exercise.
+
+<br>
+
+## 3.7. The end is nigh (of the workshop, not the game...)
 
 Now add support for persisting and retrieving `GameFinished` events.
+
+<br>
 
 ## 3.8. Connect Four: The Final Battle
 
@@ -253,3 +268,11 @@ poetry run python -m connect_four.cli
 
 **If you did not finish your implementation, but still want to play the game,
 switch to the solution branch `solution-03-exercise-persisting-the-events`.**
+
+<br><br>
+
+---
+
+<p align="center">
+   <a href="/exercises/exercise-02-play-the-game.md">⬅️ Back to exercise 2</a> | <a href="https://404-exercise-not-found.europython">Continue to exercise 404 ➡️</a>
+</p>

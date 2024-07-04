@@ -61,7 +61,7 @@ you can to perform the check.
 
 <br>
 
-### 2.4. The end is nigh (of the game, not of the workshop...)
+### 2.4. The end is nigh (of the game, not the workshop...)
 
 Now you can make a bunch of moves. There's just one problem: This game will
 never end. Once the board is full, every move you try to make will be rejected
