@@ -8,6 +8,8 @@
 
 Switch to the branch `01-exercise-start-game`.
 
+<br>
+
 ---
 
 ## 1.2. Initializing the aggregate
@@ -25,6 +27,8 @@ Switch to the branch `01-exercise-start-game`.
 educational purposes. (Isn't it nice how easy it is to rationalise design
 decisions?)* 
 
+<br>
+
 ---
 
 ## 1.3. Starting a game with two players
@@ -33,6 +37,8 @@ To start a `Game`, the class needs to support the "Start Game"-command.
 
 1. Add a method, `start_game`, that starts a game by assigning the names of the
    two players to the relevant attributes initialized in `__init__`.
+
+<br>
 
 ---
 
@@ -45,6 +51,8 @@ to record events.
 1. Add an attribute, `events`, to the `Game` class that will hold the events of
    the game in a list. Think of a place to initialize this attribute with a
    reasonable "empty" value.
+
+<br>
 
 ---
 
@@ -75,6 +83,8 @@ Now that we have a list to store the events, we want to "emit" and track a
    `GameStarted`-event containing the right information. Append it to `events`
    list you added above to ensure that don't forget about this event!
 
+<br>
+
 ---
 
 ## 1.6. Those who remember the past are able to repeat it 
@@ -101,6 +111,8 @@ with the exact same state as you have right now.
 
 This is the magic of Event Sourcing: You *replay the events* to recreate the
 state of the aggregate rather than persisting the state itself.
+
+<br>
 
 ---
 
