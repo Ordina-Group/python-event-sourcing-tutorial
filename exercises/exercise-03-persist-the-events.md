@@ -81,52 +81,65 @@ the `GameRepository`.
 [application-directory]: /src/connect_four/application/
 [esdb-game-repository]:  /src/connect_four/persistence/eventstoredb.py
 
-## 3.4. If a game is started in the forest...
+<br>
 
-If a game is started in the forest and there's no repo to persist the event, did
-it truly start? Since we only store events, not state, the only way for a game
-to be saved is if we store its event in the event store.
+## 3.3. If a game starts in the forest...
 
-That's why the `start_game`-method of the application service creates a Game,
+If a game starts in the forest and there's no repo to store the event, did it
+truly start? Since we only store events, not state, the only way for a game to
+be saved is by storing its events in an event store.
+
+That's why the `start_game`-method of the application service creates a `Game`,
 executes the `start_game`-command on the game, and then persists the events of
 the game to the event store using the repository.
 
-Here's an example that appends events to a stream using the `EventStoreDBClient`:
+In this exercise, you will implement the persistence logic required to make the
+`GaeRepository.add`-method store the events of a `Game` in EventStoreDB.
 
-```python
-import esdbclient
+<details>
+  <summary>Quick Example of Using the EventStoreDBClient</summary>
 
+> Here's an example that appends events to a stream using the `EventStoreDBClient`:
+>   
+> ```python
+> import esdbclient
+>   
+>   
+> # You'll need to translate events to esdbclient events:
+> event1 = esdbclient.NewEvent(type='EventType', data=b'{"data":"bytes"}')
+>   
+> # And a name for the event stream
+> stream_name = "some-event-stream-name"
+>   
+> # Now you can append the NewEvent to the stream
+> client = esdbclient.EventStoreDBClient("esdb://localhost:2113?tls=false")
+> client.append_to_stream(
+    > stream_name=stream_name,
+    > current_version=esdbclient.StreamState.ANY,
+    > events=[event1]
+> )
+> ```
+>  
+</details>
 
-# You'll need to translate events to esdbclient events:
-event1 = esdbclient.NewEvent(type='EventType', data=b'{"data":"bytes"}')
+1. Add an implementation to `GameRepository.add` that persist a`Game` with only
+   a `GameStarted`-event.
 
-# And a name for the event stream
-stream_name = "some-event-stream-name"
+   This requires a few steps:
+   1. Map a domain event to an `esdbclient.NewEvent` by extending the
+      `_map_eventstore_event_to_domain_event` function and using it in the
+      `add`-method. Hint: you can use the `json` module to serialize the event 
+      data, although you do need to encode the string to bytes.
+   2. Determine the stream name based on the game ID using `f"game-{game.id}"`.
+   3. Append the event to the stream using the `EventStoreDBClient`.
 
-# Now you can append the NewEvent to the stream
-client = esdbclient.EventStoreDBClient("esdb://localhost:2113?tls=false")
-client.append_to_stream(
-    stream_name=stream_name,
-    current_version=esdbclient.StreamState.ANY,
-    events=[event1]
-)
-```
+> [!TIP]
+> There's a test in `tests/persistence/test_game_repository.py` that you can use
+> to test your implementation.
 
-Add an implementation to `GameRepository.add` that persist a `Game` with only
-a `GameStarted`-event.
+<br>
 
-You'll need a few steps:
-- Map a domain event to an `esdbclient.NewEvent` by extending the
-  `_map_eventstore_event_to_domain_event` function and using it in the
-  `add`-method. Hint: you can use the `json` module to serialize the event data,
-  although you do need to encode the string to bytes.
-- Determine the stream name based on the game ID using `f"game-{game.id}"`.
-- Append the event to the stream using the `EventStoreDBClient`.
-
-There's a test in `tests/persistence/test_game_repository.py` that you can use
-to test your implementation.
-
-## 3.5. Now... where was I?
+## 3.4. Now... where was I?
 
 Having a great memory is no use if you can't recall anything. In this exercise,
 you'll implement a method to retrieve a game from the repository. Since the only
@@ -168,7 +181,7 @@ There's a test in `tests/persistence/test_game_repository.py` that you can use
 to test your implementation. (You do have to remove the skip decorator.)
 
 
-## 3.6. Show Me Your Moves
+## 3.5. Show Me Your Moves
 
 1. Now add support for persisting and retrieving `MoveMade` events by adding the
    mapping logic for this event to both mapping functions.
@@ -181,7 +194,7 @@ to test your implementation. (You do have to remove the skip decorator.)
    stream. What's going on here?
 
 
-### 3.7. Those who include history are forced to repeat it
+### 3.6. Those who include history are forced to repeat it
 
 The problem is that when the events of the `Game`-instance were persisted after
 the move was made, the `Game.events` list contained two events: `GameStarted`
@@ -214,11 +227,11 @@ uncommitted events. This is the solution that we're going to implement here.
 Check if this solved the problem by rerunning the test from the previous
 exercise.
 
-## 3.8. The end is nigh (of the workshop, not of the game...)
+## 3.7. The end is nigh (of the workshop, not of the game...)
 
 Now add support for persisting and retrieving `GameFinished` events.
 
-## 3.9. Connect Four: The Final Battle
+## 3.8. Connect Four: The Final Battle
 
 That should be it. You've successfully implemented an event-sourced Connect Four
 game.
@@ -229,5 +242,5 @@ You can play your game using the CLI-client:
 poetry run python -m connect_four.cli
 ```
 
-If you did not finish your implementation, but still want to play the game,
-switch to the solution branch `solution-03-exercise-persisting-the-events`.
+**If you did not finish your implementation, but still want to play the game,
+switch to the solution branch `solution-03-exercise-persisting-the-events`.**
