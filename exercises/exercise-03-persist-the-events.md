@@ -47,6 +47,8 @@ the `GameRepository`.
 
 1. Check out the stub in [`src/connect_four/persistence/`][esdb-game-repository]
 
+<br>
+
 <details>
   <summary><i>Writing tests for the repository</i></summary>
 
@@ -99,6 +101,8 @@ the game to the event store using the repository.
 
 In this exercise, you will implement the persistence logic required to make the
 `GaeRepository.add`-method store the events of a `Game` in EventStoreDB.
+
+<br>
 
 <details>
   <summary><i>Quick Example of Using the EventStoreDBClient</i></summary>
@@ -153,6 +157,8 @@ In this exercise, you will implement the persistence logic required to make the
 
 Having a great memory is no use if you can't retrieve anything. So, let's add
 retrieval logic to the `GameRepository`.
+
+<br>
 
 <details>
   <summary><i>Quick Example of Retrieving Events</i></summary>
@@ -226,14 +232,14 @@ Since we are *appending* events to the event and the `GameStarted` event was
 already stored when the game was created, persisting the entire `Game.events`
 list will store another `GameStarted` event!
 
-This is obviously a problem.
+*This is obviously a problem.*
 
 How would you solve this? Keep in mind that the `Game`-instance would be out of
 sync if you were to omit historic events entirely. This is problematic because
 we do want to be able to check constraints and perform other business logic that
 relies on the historical events.
 
-<br>
+<br><br>
 
 One solution to this problem is to separate the historical events from the
 uncommitted events. This is the solution that we're going to implement here.

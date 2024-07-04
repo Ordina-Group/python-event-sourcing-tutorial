@@ -62,8 +62,9 @@ specific column, that column **must** have room for another token."
 1. Add a constraint to the `make_move`-method that prevents a player from
    placing a token in a column that's already full.
 
-**Hint:** The `Board`-class already provides a `has_room_in_column`-method that
-you can to perform the check.
+> [!TIP]
+> The `Board`-class already provides a `has_room_in_column`-method that you can
+> use to perform the check.
 
 <br>
 
@@ -102,7 +103,10 @@ event that *sometimes* follows a `MoveMade`-event.
    class has a `get_result`-method that you can use to check if the game has
    finished.
 
-Note: Don't forget to apply the event to the `Game`-aggregate!
+<br>
+
+> [!IMPORTANT]
+> Don't forget to apply the event to the `Game`-aggregate!
 
 <br>
 
