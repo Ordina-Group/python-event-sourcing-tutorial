@@ -48,19 +48,21 @@ install and synchronise the dependencies:
 poetry install --only main --sync
 ```
 
-After you've installed the dependencies, there are a few handy Poetry commands
-that you can use:
+<details>
+  <summary>Additonal `poetry` commands</summary>
+  
+  - Run `poetry shell` to spawn a shell with the virtual environment activated
+  - Run `poetry run python` to open a Python REPL within the virtual environment
+  - Run `poetry run pytest` to run all the tests
+  - Run `poetry run python -m connect_four.cli` to play "Connect Four" with a CLI
+    client. Note that the client uses your implementation, so it will only do
+    something interesting (e.g. "not crashing") after you've actually implemented
+    something!
 
-- Run `poetry shell` to spawn a shell with the virtual environment activated
-- Run `poetry run python` to open a Python REPL within the virtual environment
-- Run `poetry run pytest` to run all the tests
-- Run `poetry run python -m connect_four.cli` to play "Connect Four" with a CLI
-  client. Note that the client uses your implementation, so it will only do
-  something interesting (e.g. "not crashing") after you've actually implemented
-  something!
+  Note: If you spawned a shell with `poetry shell`, you may omit the `poetry run`
+  from the commands listed above.
+</details>
 
-Note: If you spawned a shell with `poetry shell`, you may omit the `poetry run`
-from the commands listed above.
 
 ### Running EventstoreDB
 
@@ -104,21 +106,6 @@ docker compose up eventstoredb-arm64
 
 ---
 
-## Outline
-
-- [13:00] Introduction to Event Sourcing, including some background on Domain Modeling/DDD
-- [13:30] Modeling the Game Events: Guided (& Simplified) Event Storming
-- [14:00] Intro Exercise 1
-- [14:10] Exercise 1 [Start game]
-- [14:50] Discussion Exercise 1 and intro Exercise 2
-- [15:00] Exercise 2 [Play the game]
-- [15:30] Discussion Exercise 2 and intro Exercise 3
-- [15:40] Exercise 3 [Persisting the events]
-- [16:10] Ending Discussion/Q&A
-- [16:30] Drinks
-
----
-
 ## Exercises
 
 You can find the exercises in the `/exercises`-directory:
@@ -130,56 +117,3 @@ You can find the exercises in the `/exercises`-directory:
 [exercise-01]: /exercises/exercise-01-start-game.md
 [exercise-02]: /exercises/exercise-02-play-the-game.md
 [exercise-03]: /exercises/exercise-03-persist-the-events.md
-
-
-
-
----
-
-
-
-
----
-
-# Notes:
-
-## Introduction to Event Sourcing
-
-- What is Event Sourcing?
-- Why would you use it?
-- Domain Modeling/DDD
-- State vs Events (including persistence)
-- Implementing the core instead of using a library
-- Overview of workshop
-
-## Modeling the Game Events
-
-- What are we modeling?
-- Short introduction to Event Storming
-- Guided Event Storming session (using Connect 4 live game)
-- Resulting events
-
-## Intro Exercises
-
-- Where to find the exercises
-- What to expect in Exercise 1
-- Check out branch `01-exercise-start-game`
-
-## Discussion Exercise 2 and intro Exercise 3
-
-- Show finished solution
-- What to expect in Exercise 3
-- Check out branch `exercise-3-persist-events`
-
-## Exercise 3 [Persisting the events]
-
-- Event store
-- Persisting events through repository
-- Loading events from the event store
-
-# Ending Discussion/Q&A
-- When to use & when not to use
-- CQRS
-- Snapshots
-- Mention existing packages for event sourcing in Python
-- Q&A
