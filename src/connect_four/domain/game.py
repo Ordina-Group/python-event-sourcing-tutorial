@@ -34,8 +34,8 @@ class Game:
     def start_game(self, player_one: str, player_two: str) -> None:
         """Start a game.
 
-        :param player_one:
-        :param player_two:
+        :param player_one: the name of player one
+        :param player_two: the name of player two
         """
         if self.has_started:
             raise exceptions.GameAlreadyStartedError("The game has already started.")
@@ -83,5 +83,7 @@ class Game:
 
 @attrs.define(frozen=True)
 class Move:
+    """A move in the game."""
+
     player: str
     column: board.Column

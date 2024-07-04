@@ -8,7 +8,7 @@ game of Connect Four.
 import enum
 
 
-class GameResult(enum.Enum):
+class GameResult(enum.StrEnum):
     """The result of a game."""
 
     PLAYER_ONE_WON = "PLAYER_ONE_WON"

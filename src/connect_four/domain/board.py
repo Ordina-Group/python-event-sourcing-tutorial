@@ -13,7 +13,7 @@ from connect_four.domain import result
 BoardState: TypeAlias = "dict[Column, list[Token]]"
 
 
-class Column(enum.Enum):
+class Column(enum.StrEnum):
     """A column in a board."""
 
     A = "A"
@@ -111,6 +111,7 @@ class Board:
         return (list(row) for row in more_itertools.transpose(self._get_columns()))
 
     def _get_diagonals(self) -> Iterator[list[Token | None]]:
+        """An iterator that yields diagonals."""
         board = list(self._get_columns())
         for diagonal in itertools.chain(_FORWARD_DIAGONALS, _BACKWARD_DIAGONALS):
             yield [board[col][row] for col, row in diagonal]
