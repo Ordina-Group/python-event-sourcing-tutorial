@@ -15,7 +15,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.12"
 attrs = "^23.2.0"
-esdbclient = "^1.0.25"
+esdbclient = "^1.1"
 more-itertools = "^10.3.0"
 colorama = "^0.4.6"
 pytest = "^8.2.1"
