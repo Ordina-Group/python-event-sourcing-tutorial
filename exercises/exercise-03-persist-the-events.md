@@ -2,71 +2,83 @@
 
 - **Length:** 30-40 minutes 
 
-All that buzz about persisting events instead of state and we haven't even
-persisted anything yet. In this exercise, we're going to store game events in
-EventStoreDB and reconstruct games using events fetched from EventStoreDB.
+All that buzz about persisting events instead of state, and we haven't even
+persisted anything yet. Let's change that.
 
-Note that you need to run an instance of EventStoreDB locally for the exercises
-below. You can start an instance using the `compose.yaml` file provided in the
-root of this repository.
+> [!IMPORTANT]
+> You need to have an instance of EventStoreDB running locally for this
+> exercise. You can start an instance using the `compose.yaml` file provided in
+> the root of this repository.
+>   
+> You can find more information [here](/README.md#running-eventstoredb) in the
+> README.
 
-See the [Running EventStoreDB](/README.md#running-eventstoredb) section in the
-project README.md for more information on how to run EventStoreDB.
-
-EventStoreDB comes with a convenient web interface that you can use to inspect
-the events that you've stored. Once you have the docker container running, you
-can access the web interface by visiting http://localhost:2113/.
+> [!TIP]
+> EventStoreDB comes with a convenient web interface to check out the events
+> you've stored: http://localhost:2113/.
 
 
 ## 3.1. Preparation
 
 Switch to the branch `03-exercise-persisting-the-events`.
 
+<br>
 
-
-## 3.2. Always remember to carry your ID
-
-To persist events for specific games, we need to be able to identify specific
-games.
-
-1. Add an `id`-attribute to the `Game`-class.
-
-Note: for this workshop, it's okay to use a UUID that's generated when a game
-is instantiated without an ID.
-
-
-
-## 3.3. Exploring the repoverse
+## 3.2. Exploring the repoverse
 
 In the following exercises, you'll implement a `GameRepository` that persists
-events to and retrieves events from an event stream in EventStoreDB.
+events in EventStoreDB and retrieves them.
 
-We've provided you with a minimal application service to make interacting with
-games easier. You can find the application service and the interface of the
-game repository in [`/src/connect_four/application/`][application-directory].
+We've provided a minimal application layer to make connecting the dots a bit
+easier. You won't have to touch this layer, but it does contain an interface
+that our `GameRepository` has to implement.
 
-You don't have to make changes to this layer, but it is used by the CLI-client:
+You can find there relevant files in [`/src/connect_four/application/`][application-directory].
 
+It is used by the new CLI-client that you can run with:
 ```bash
 poetry run python -m connect_four.cli
 ```
 
-In preparation of the next exercises, have a look at the stubs of the 
-`GameRepository` in [`src/connect_four/persistence/`][esdb-game-repository].
+In addition to the application layer, we've also provided you with a stub for
+the `GameRepository`.
 
-Note that this repository expects an instance of the EventStoreDBClient to do
-its work. If you're going to write tests, you can provide your repository with
-one by injecting it:
+1. Check out the stub in [`src/connect_four/persistence/`][esdb-game-repository]
 
-```python
-import esdbclient
+<details>
+  <summary>Writing tests for the repository</summary>
 
-from connect_four.persistence import eventstoredb
+> [!TIP]
+> The `GameRepository` expects an instance of the `EventStoreDBClient` to
+> interact with EventStoreDB. You can inject an instance of the client like 
+> this:
+>   
+> ```python
+> import esdbclient
+>   
+> from connect_four.persistence import eventstoredb
+>  
+>   
+> def test_game_repository() -> None:
+>     client = esdbclient.EventStoreDBClient("esdb://localhost:2113?tls=false")
+>     repo = eventstoredb.GameRepository(client=client)
+> ```
+>   
+> One thing to keep in mind is that the running instance of `EventStoreDB` will
+> not be cleaned between tests (or between test runs). This is not ideal, but we
+> want you to interact with an actual event store.
+> 
+> As our game stream will use the Game ID in its name, which is a random UUID,
+> this shouldn't cause too many issues for this tutorial. If you want to write
+> integration tests for actual projects, you could consider using a test
+> container or in-memory event store that you restart between tests or test
+> runs.
+> 
+> Alternatively, if this really bothers you, you can [inject][there-is-nothing-difficult-about-this] a test double.
+</details>
 
-def test_game_repository() -> None:
-    client = esdbclient.EventStoreDBClient("esdb://localhost:2113?tls=false")
-    repo = eventstoredb.GameRepository(client=client)
-```
+[there-is-nothing-difficult-about-this]: https://www.youtube.com/watch?v=uWTvMCra-_Y&t=364s
+
 
 [application-directory]: /src/connect_four/application/
 [esdb-game-repository]:  /src/connect_four/persistence/eventstoredb.py
