@@ -1,9 +1,65 @@
 services:
-  eventstore.db:
-    # If you have a Macbook with Apple Silicon (M1/M2/M3),
-    # uncomment line 5 and comment out line 6.
+  eventstoredb:
+    # ==================================================================
+    # IMPORTANT NOTICE ABOUT PLATFORM COMPATIBILITY
+    #
+    # If you're using Apple Silicon or some other arm64 platform, the
+    # image used by this service will not work for you. You can either
+    # change the `image` setting to this:
+    #
     # image: eventstore/eventstore:24.2.0-alpha-arm64v8
+    #
+    # Or use the `eventstoredb-arm64` service defined below.
+    # ------------------------------------------------------------------
+    # INSTRUCTIONS
+    #
+    # You can start the `eventstoredb` service using this command:
+    #
+    #    docker compose up eventstoredb
+    #
+    # This will start EventStoreDB and expose the necessary ports. After
+    # starting this service, you can visit the web interface of
+    # EventStoreDB by going to http://localhost:2113/.
+    # ==================================================================
     image: eventstore/eventstore:24.2.0
+    restart: unless-stopped
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_HTTP_PORT=2113
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    ports:
+      - "1113:1113"
+      - "2113:2113"
+    volumes:
+      - type: volume
+        source: eventstore-volume-data
+        target: /var/lib/eventstore
+      - type: volume
+        source: eventstore-volume-logs
+        target: /var/log/eventstore
+
+
+  eventstoredb-arm64:
+    # ==================================================================
+    # IMPORTANT NOTICE ABOUT PLATFORM COMPATIBILITY
+    #
+    # This service is included for users of Apple Silicon (M1/M2/M3) or
+    # other arm64 platforms.
+    # ------------------------------------------------------------------
+    # INSTRUCTIONS
+    #
+    # You can start the `eventstoredb` service using this command:
+    #
+    #    docker compose up eventstoredb-arm64
+    #
+    # This will start EventStoreDB and expose the necessary ports. After
+    # starting this service, you can visit the web interface of
+    # EventStoreDB by going to http://localhost:2113/.
+    # ==================================================================
+    image: eventstore/eventstore:24.2.0-alpha-arm64v8
     restart: unless-stopped
     environment:
       - EVENTSTORE_CLUSTER_SIZE=1
