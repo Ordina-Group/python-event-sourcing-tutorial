@@ -81,7 +81,7 @@ Now that we have a list to store the events, we want to "emit" and track a
 
 4. Now go back to the `start_game`-method and ensure that it instantiates a
    `GameStarted`-event containing the right information. Append it to `events`
-   list you added above to ensure that don't forget about this event!
+   list you added above to ensure that you don't forget about this event!
 
 <br>
 
