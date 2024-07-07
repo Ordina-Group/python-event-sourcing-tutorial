@@ -99,7 +99,7 @@ executes the `start_game`-command on the game, and then persists the events of
 the game to the event store using the repository.
 
 In this exercise, you will implement the persistence logic required to make the
-`GaeRepository.add`-method store the events of a `Game` in EventStoreDB.
+`GameRepository.add`-method store the events of a `Game` in EventStoreDB.
 
 <br>
 
@@ -181,7 +181,7 @@ retrieval logic to the `GameRepository`.
 1. Add logic to the `get`-method that retrieves the events in the game stream.
 
 2. Extend `_map_eventstore_event_to_domain_event` to map a `RecordedEvent` 
-   the domain event `GameStarted` and apply it to the events from step 1.
+   to the domain event `GameStarted` and apply it to the events from step 1.
 
 3. Create a `Game`-instance with the ID passed to `get`.
 
@@ -193,7 +193,7 @@ retrieval logic to the `GameRepository`.
    resurrected from the event store.
 
 6. Now that you've recreated the `Game`-instance in the correct state, return
-   it to the caller,
+   it to the caller.
 
 <br>
 
